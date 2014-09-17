@@ -1,35 +1,37 @@
 require 'arbor/api'
 require 'arbor/utils'
 require 'httpi'
+require 'json'
 
 module Arbor
   class Client
     include Arbor::API
     include Arbor::Utils
     attr_accessor :host, :username, :password, :settings
-    DEFAULT_API_HOST = "http://trunk.staging.arbor.sc/rest-v2/"
 
     def initialize(*args)
-      @settings = args.pop if args.last.is_a?(Hash)
-      raise ArgumentError, "must supply a username and password" if args.length < 2
-      @host, @username, @password = left_pad(args, 3)
-      @host ||= DEFAULT_API_HOST
+      @settings = args.last.is_a?(Hash) ? args.pop : {}
+      raise ArgumentError, "must supply a subdomain, username and password" if args.length < 3
+      subdomain, @username, @password = args
+      @host = "https://#{subdomain}.uk.arbor.sc"
     end
 
-    def get(*args)
-      request = configure_request(*args)
-      HTTPI.get(request, settings[:adapter])
+    [:get, :post].each do |verb|
+      define_method(verb) do |*args|
+        request = configure_request(*args)
+        response = HTTPI.request(verb, request, settings[:adapter])
+        JSON.parse(response.body)
+      end
     end
 
-    def post(*args)
-      request = configure_request(*args)
-      HTTPI.post(request, settings[:adapter])
-    end
-
-    def configure_request(*args)
-      request = HTTPI::Request.new(*args)
-      request.auth.digest(username, password)
-      request
-    end
+    private
+      def configure_request(path, *args)
+        url = "#{host}#{path}"
+        request = HTTPI::Request.new(url, *args)
+        request.headers["Accept"] = "application/json"
+        auth_type = settings[:adapter] == :net_http ? :basic : :digest
+        request.auth.send(auth_type, username, password)
+        request
+      end
   end
 end

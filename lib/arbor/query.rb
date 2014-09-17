@@ -1,5 +1,6 @@
 require 'uri'
 require 'arbor/utils'
+require 'arbor/filter'
 
 module Arbor
   class Query

@@ -1,19 +1,37 @@
-require 'arbor/utils'
+require 'arbor/model/serialiser'
 
 module Arbor
   module API
-    include Arbor::Utils
-
     def retrieve(type, id)
       resource = parse_resource(type)
-      get("/#{resource}/#{id}")
+      data = get("/rest-v2/#{resource}/#{id}")
+
+      unmarshall_data(data, resource)
     end
 
     def query(type, query = nil)
       resource = parse_resource(type)
       query_string = query.build_query_string if query
 
-      get("/#{resource}?#{query_string}")
+      data = get("/rest-v2/#{resource}?#{query_string}")
+
+      unmarshall_data(data, resource)
     end
+
+    private
+      def unmarshall_data(data, resource)
+        singular_resource = resource.to_s.singularize
+        plural_resource   = resource.to_s
+
+        if (res = data[singular_resource])
+          Model::Serialiser.parse_resource(res).tap { |obj| obj.attach_client(self) }
+        elsif data[plural_resource]
+          data[plural_resource].map do |res|
+            Model::Serialiser.parse_resource(res).tap { |obj| obj.attach_client(self) }
+          end
+        else
+          raise Errors::SerialisationError, "Unexpected root key in API data."
+        end
+      end
   end
 end

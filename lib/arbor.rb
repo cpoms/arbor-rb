@@ -1,6 +1,16 @@
 require 'arbor/client'
+require 'arbor/query'
+require 'arbor/serialiser_registry'
+require 'active_support/inflector'
+require 'arbor/errors'
 
 module Arbor
+  class << self
+    def serialisers
+      @serialisers ||= SerialiserRegistry.new
+    end
+  end
+
   RESOURCES = [:academic_calendar_dates, :academic_holidays, :academic_levels,
     :academic_level_memberships, :academic_level_registration_form_mappings,
     :academic_level_tutors, :academic_programmes, :academic_programme_instances,

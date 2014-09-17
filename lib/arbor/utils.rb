@@ -1,3 +1,5 @@
+require 'active_support/core_ext/string'
+
 module Arbor
   module Utils
     def parse_resource(type)
@@ -8,12 +10,8 @@ module Arbor
       case type
       when Class
         type.name.pluralize.underscore.to_sym
-      when String
-        type.pluralize.to_sym
-      when Symbol
-        type.to_s.pluralize.to_sym
       else
-        raise ArgumentError, "must supply a Class, String or Symbol for type"
+        type.to_s.pluralize.to_sym
       end
     end
 
