@@ -20,7 +20,7 @@ module Arbor
       define_method(verb) do |*args|
         request = configure_request(*args)
         response = HTTPI.request(verb, request, settings[:adapter])
-        JSON.parse(response.body)
+        JSON.parse(response.body.presence || "{}")
       end
     end
 
