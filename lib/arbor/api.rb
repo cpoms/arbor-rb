@@ -24,10 +24,14 @@ module Arbor
         plural_resource   = resource.to_s
 
         if (res = data[singular_resource])
-          Model::Serialiser.parse_resource(res).tap { |obj| obj.attach_client(self) }
+          Model::Serialiser.parse_resource(res).tap { |obj|
+            obj.attach_client(self) if obj.respond_to?(:attach_client)
+          }
         elsif data[plural_resource]
           data[plural_resource].map do |res|
-            Model::Serialiser.parse_resource(res).tap { |obj| obj.attach_client(self) }
+            Model::Serialiser.parse_resource(res).tap { |obj|
+              obj.attach_client(self) if obj.respond_to?(:attach_client)
+            }
           end
         else
           raise Errors::SerialisationError, "Unexpected root key in API data."
