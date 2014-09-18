@@ -1,7 +1,9 @@
+require 'arbor/model/serialiser'
+
 module Arbor
   module Model
     class Abstract
-      attr_accessor :api_client, :entity_type, :attribute_names
+      attr_accessor :api_client, :entity_type, :attribute_names, :attribute_lock
 
       def initialize(attributes)
         @attribute_names = []
@@ -9,12 +11,9 @@ module Arbor
       end
 
       def method_missing(meth, *args, &block)
-        refresh_data
-
-        if respond_to?(meth)
+        attribute_lock ? super : begin
+          refresh_data
           send(meth, *args, &block)
-        else
-          super
         end
       end
 
@@ -28,15 +27,28 @@ module Arbor
         parsed_attributes = Serialiser.parse_attributes(data[entity_type.downcase])
         load_attributes(parsed_attributes)
         attach_client(self.api_client)
+
+        @attribute_lock = true
       end
 
       def load_attributes(attributes)
         attributes.each do |name, value|
           unless self.respond_to?("#{name}=")
-            self.class.send(:attr_accessor, name)
-            @attribute_names << name
+            self.class.instance_eval { define_method(name) { attribute(name) } }
+            self.class.send(:attr_writer, name)
           end
+          @attribute_names << name
           self.send("#{name}=", value)
+        end
+      end
+
+      def attribute(name)
+        if instance_variable_defined?("@#{name}")
+          instance_variable_get("@#{name}")
+        else
+          raise Errors::UnknownAttributeError if attribute_lock
+          refresh_data
+          attribute(name)
         end
       end
 
@@ -47,6 +59,10 @@ module Arbor
             send(name).attach_client(client)
           end
         end
+      end
+
+      def unlock_attributes
+        @attribute_lock = false
       end
     end
   end

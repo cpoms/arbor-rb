@@ -26,6 +26,7 @@ module Arbor
         if (res = data[singular_resource])
           Model::Serialiser.parse_resource(res).tap { |obj|
             obj.attach_client(self) if obj.respond_to?(:attach_client)
+            obj.lock_attributes = true
           }
         elsif data[plural_resource]
           data[plural_resource].map do |res|
