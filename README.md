@@ -41,6 +41,7 @@ Arbor.serialisers.default_serialiser = MyDefaultSerialiser
 - Write tests
 - Support the other stuff like ordering, paging, changelog etc.
 - Include an API mixin for the resource classes
+- RDoc it up
 
 ## Licence
 
