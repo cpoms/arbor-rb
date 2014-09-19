@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["mike.campbell@meritec.co.uk"]
   spec.description   = %q{Interface for the Arbor Education REST API.}
   spec.summary       = %q{Interface for the Arbor Education REST API.}
-  spec.homepage      = "http://github.com/meritec/arbor"
+  spec.homepage      = "http://github.com/meritec/arbor-rb"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "activesupport", ">= 3.0.0"
-  spec.add_dependency "httpi", "~> 2.0.5"
+  spec.add_dependency "httpi", ">= 2.0.5"
   spec.add_development_dependency "bundler", "~> 1.3"
-  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rake", "~> 0"
 end
