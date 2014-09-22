@@ -1,15 +1,11 @@
 require 'uri'
-require 'arbor/utils'
 require 'arbor/filter'
 
 module Arbor
   class Query
-    include Arbor::Utils
-
     attr_accessor :filters, :resource
 
-    def initialize(type, filters = [])
-      @resource = parse_resource(type)
+    def initialize(filters = [])
       @filters = filters
     end
 

@@ -26,7 +26,7 @@ module Arbor
         if (res = data[singular_resource])
           Model::Serialiser.parse_resource(res).tap { |obj|
             obj.attach_client(self) if obj.respond_to?(:attach_client)
-            obj.lock_attributes = true
+            obj.lock_attributes = true if obj.respond_to?(:lock_attributes)
           }
         elsif data[plural_resource]
           data[plural_resource].map do |res|
@@ -34,6 +34,8 @@ module Arbor
               obj.attach_client(self) if obj.respond_to?(:attach_client)
             }
           end
+        elsif data.empty?
+          []
         else
           raise Errors::SerialisationError, "Unexpected root key in API data."
         end
