@@ -20,8 +20,8 @@ module Arbor
 
     private
       def unmarshall_data(data, resource)
-        singular_resource = resource.singularize
-        plural_resource   = resource
+        singular_resource = resource.singularize.camelize(:lower)
+        plural_resource   = resource.camelize(:lower)
 
         if (res = data[singular_resource])
           Model::Serialiser.parse_resource(res).tap { |obj|
@@ -36,8 +36,10 @@ module Arbor
           end
         elsif data.empty?
           []
+        elsif data["errors"]
+          raise Errors::APIError, "#{data["status"]["code"]} #{data["status"]["reason"]}: #{data["status"]["errors"].join(", ")}"
         else
-          raise Errors::SerialisationError, "Unexpected root key in API data."
+          raise Errors::SerialisationError, "Unexpected root key in API data. Expected: #{plural_resource} or #{singular_resource}. Actual: #{data.keys}"
         end
       end
   end

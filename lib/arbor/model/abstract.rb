@@ -24,7 +24,7 @@ module Arbor
 
         data = api_client.get(href)
 
-        parsed_attributes = Serialiser.parse_attributes(data[entity_type.downcase])
+        parsed_attributes = Serialiser.parse_attributes(data[entity_type.camelize(:lower)])
         load_attributes(parsed_attributes)
         attach_client(self.api_client)
 

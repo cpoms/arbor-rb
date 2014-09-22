@@ -17,7 +17,7 @@ module Arbor
     end
 
     def validate(choice, options)
-      unless options.include?(choice)
+      unless options.include?(choice.to_sym)
         raise ArgumentError, "#{choice} is not a valid option: #{options}"
       end
       choice
