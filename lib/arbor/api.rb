@@ -3,25 +3,25 @@ require 'arbor/model/serialiser'
 module Arbor
   module API
     def retrieve(type, id)
-      resource = parse_resource(type)
-      data = get("/rest-v2/#{resource}/#{id}")
+      resource = parse_resource_name(type)
+      data = get("/rest-v2/#{resource.dasherize}/#{id}")
 
       unmarshall_data(data, resource)
     end
 
     def query(type, query = nil)
-      resource = parse_resource(type)
+      resource = parse_resource_name(type)
       query_string = query.build_query_string if query
 
-      data = get("/rest-v2/#{resource}?#{query_string}")
+      data = get("/rest-v2/#{resource.dasherize}?#{query_string}")
 
       unmarshall_data(data, resource)
     end
 
     private
       def unmarshall_data(data, resource)
-        singular_resource = resource.to_s.singularize
-        plural_resource   = resource.to_s
+        singular_resource = resource.singularize
+        plural_resource   = resource
 
         if (res = data[singular_resource])
           Model::Serialiser.parse_resource(res).tap { |obj|

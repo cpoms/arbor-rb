@@ -2,16 +2,17 @@ require 'active_support/core_ext/string'
 
 module Arbor
   module Utils
-    def parse_resource(type)
-      validate(get_resource(type), Arbor::RESOURCES)
+    def parse_resource_name(type)
+      validate(get_resource_name(type), Arbor::RESOURCES)
     end
 
-    def get_resource(type)
+    def get_resource_name(type)
       case type
       when Class
-        type.name.pluralize.underscore.to_sym
+        # do reverse serialiser lookup instead
+        type.name.pluralize.underscore
       else
-        type.to_s.pluralize.to_sym
+        type.to_s.pluralize
       end
     end
 
