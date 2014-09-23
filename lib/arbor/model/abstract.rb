@@ -64,6 +64,14 @@ module Arbor
       def unlock_attributes
         @attribute_lock = false
       end
+
+      def attributes
+        Hash[attribute_names.map { |a| [a, send(a)] }]
+      end
+
+      def inspect
+        "#<#{self.class.name} #{attribute_names.map { |a| "#{a}: #{send(a).inspect}" }.join(', ')}>"
+      end
     end
   end
 end
