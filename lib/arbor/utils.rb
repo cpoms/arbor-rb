@@ -26,5 +26,18 @@ module Arbor
     def left_pad(array, num)
       num.times { array.unshift(nil) }
     end
+
+    def attempt(enum)
+      exception = nil
+      enum.each do
+        begin
+          return yield
+        rescue Exception => e
+          exception = e
+          next
+        end
+      end
+      raise exception
+    end
   end
 end

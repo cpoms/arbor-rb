@@ -36,8 +36,8 @@ module Arbor
           unless self.respond_to?("#{name}=")
             self.class.instance_eval { define_method(name) { attribute(name) } }
             self.class.send(:attr_writer, name)
+            @attribute_names << name
           end
-          @attribute_names << name
           self.send("#{name}=", value)
         end
       end

@@ -19,7 +19,9 @@ module Arbor
     [:get, :post].each do |verb|
       define_method(verb) do |*args|
         request = configure_request(*args)
-        response = HTTPI.request(verb, request, settings[:adapter])
+        response = attempt((settings[:retries] || 1).times) do
+          HTTPI.request(verb, request, settings[:adapter])
+        end
         JSON.parse(response.body.presence || "{}")
       end
     end
