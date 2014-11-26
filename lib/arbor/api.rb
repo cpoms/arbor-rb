@@ -36,8 +36,10 @@ module Arbor
           end
         elsif data.empty?
           []
-        elsif data["errors"]
+        elsif data["errors"] || (data["status"] && !data["status"]["success"])
           raise Errors::APIError, "#{data["status"]["code"]} #{data["status"]["reason"]}: #{data["status"]["errors"].join(", ")}"
+        elsif (data[:response] && !data["response"]["success"])
+          raise Errors::APIError, "#{data["response"]["code"]} #{data["response"]["reason"]}"
         else
           raise Errors::SerialisationError, "Unexpected root key in API data. Expected: #{plural_resource} or #{singular_resource}. Actual: #{data.keys}"
         end
