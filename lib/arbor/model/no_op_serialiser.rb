@@ -1,7 +1,7 @@
 module Arbor
   module Model
     class NoOpSerialiser
-      def self.deserialise(data)
+      def self.load(data)
         data
       end
     end
