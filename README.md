@@ -1,6 +1,6 @@
 # Ruby Interface for Arbor API
 
-An unofficial Ruby interface to [Arbor Education API](http://www.arbor-education.com/en/developers-stakeholder).
+A Ruby interface to [Arbor Education API](http://www.arbor-education.com/en/developers-stakeholder).
 
 ## Installation
 
@@ -27,12 +27,13 @@ end
 # use `retrieve` to get a single resource
 student = client.retrieve(:student, 1)
 
-# by default, it serialises the API responses in to classes defined for
-# each resource. you can set your own serialiser for a resource type:
+# the default serializer is a class factory that creates a class for each
+# resource type, and returns instances of those dynamic classes. you can
+# also register your own serialisers:
 Arbor.serialisers.register(:students, MyStudentSerialiser)
 
 # and/or modify the default serialiser. serialiser classes must respond to
-# `deserialise` and return a single resource
+# `load` and return a single resource
 Arbor.serialisers.default_serialiser = MyDefaultSerialiser
 ```
 

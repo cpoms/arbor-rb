@@ -4,7 +4,7 @@ module Arbor
   module Model
     class Serialiser
       class << self
-        def deserialise(data)
+        def load(data)
           attributes = parse_attributes(data)
 
           resource = data["entityType"].underscore.to_sym
@@ -29,7 +29,7 @@ module Arbor
 
         def parse_resource(r)
           nested_type = r["entityType"]
-          nested_type ? Arbor.serialisers[nested_type].deserialise(r) : r
+          nested_type ? Arbor.serialisers[nested_type].load(r) : r
         end
 
         def transform_keys(hash)
