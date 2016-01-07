@@ -1,6 +1,6 @@
 # Ruby Interface for Arbor API
 
-A Ruby interface to [Arbor Education API](http://www.arbor-education.com/en/developers-stakeholder).
+A Ruby interface to [Arbor Education API](http://www.arbor-education.com/en/developers).
 
 ## Installation
 
