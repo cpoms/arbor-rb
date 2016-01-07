@@ -13,15 +13,15 @@ module Arbor
       resource = parse_resource_name(type)
       query_string = query.build_query_string if query
 
-      data = get("/rest-v2/#{resource.dasherize}?#{query_string}")
+      data = get("/rest-v2/#{resource.dasherize.tr('/', '_')}?#{query_string}")
 
       unmarshall_data(data, resource)
     end
 
     private
       def unmarshall_data(data, resource)
-        singular_resource = resource.singularize.camelize(:lower)
-        plural_resource   = resource.camelize(:lower)
+        singular_resource = resource.singularize.camelize(:lower).gsub('::', '_')
+        plural_resource   = resource.camelize(:lower).gsub('::', '_')
 
         if (res = data[singular_resource])
           Model::Serialiser.parse_resource(res).tap { |obj|

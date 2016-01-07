@@ -145,5 +145,5 @@ module Arbor
     :triggers, :unenrolment_reasons, :universities, :university_staffs,
     :usage_log_entries, :users, :user_defined_fields, :user_defined_records,
     :user_notifications, :user_roles, :user_role_assignments, :vision_tests,
-    :widgets, :widget_types, :workitems, :workitem_assignments]
+    :widgets, :widget_types, :workitems, :workitem_assignments, :"uk_dfe/upn_assignments"]
 end
