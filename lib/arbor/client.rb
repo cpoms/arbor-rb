@@ -7,13 +7,14 @@ module Arbor
   class Client
     include Arbor::API
     include Arbor::Utils
-    attr_accessor :host, :username, :password, :settings
+    attr_accessor :host, :username, :password, :settings, :highest_revision
 
     def initialize(*args)
       @settings = args.last.is_a?(Hash) ? args.pop : {}
       raise ArgumentError, "must supply a subdomain, username and password" if args.length < 3
       subdomain, @username, @password = args
       @host = "https://#{subdomain}.uk.arbor.sc"
+      @highest_revision = 0
     end
 
     [:get, :post].each do |verb|

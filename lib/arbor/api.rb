@@ -18,6 +18,19 @@ module Arbor
       unmarshall_data(data, resource)
     end
 
+    def changelog(type, from_revision = 0)
+      resource = parse_resource_name(type)
+
+      data = get("/rest-v2/#{resource.dasherize.tr('/', '_')}/changelog?from-revision=#{from_revision}")
+
+      data['changes'].each do |c|
+        c['entityType'] = "change"
+        @highest_revision = [highest_revision, BigDecimal.new(c['toRevision'])].max
+      end
+
+      unmarshall_data(data, 'changes')
+    end
+
     private
       def unmarshall_data(data, resource)
         singular_resource = resource.singularize.camelize(:lower).gsub('::', '_')
