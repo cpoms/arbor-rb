@@ -6,7 +6,7 @@ module Arbor
       def self.create(type = :unknown)
         class_name = type.to_s.classify
 
-        unless Arbor::Model.const_defined?(class_name)
+        unless Arbor::Model.const_defined?(class_name, false)
           type_class = Class.new(Arbor::Model::Abstract)
           Arbor::Model.const_set(class_name, type_class)
         end
