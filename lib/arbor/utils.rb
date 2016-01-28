@@ -2,6 +2,8 @@ require 'active_support/core_ext/string'
 
 module Arbor
   module Utils
+    INFLECTIONS = { 'person' => 'persons' }
+
     def parse_resource_name(type)
       validate(get_resource_name(type), Arbor::RESOURCES)
     end
@@ -10,9 +12,9 @@ module Arbor
       case type
       when Class
         # do reverse serialiser lookup instead
-        type.name.pluralize.underscore
+        pluralize(type.name).underscore
       else
-        type.to_s.pluralize
+        pluralize(type.to_s)
       end
     end
 
@@ -39,5 +41,10 @@ module Arbor
       end
       raise exception
     end
+
+    private
+      def pluralize(string)
+        INFLECTIONS[string] || string.pluralize
+      end
   end
 end

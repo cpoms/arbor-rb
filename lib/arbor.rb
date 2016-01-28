@@ -78,7 +78,7 @@ module Arbor
     :next_of_kin_relationships, :notes, :notices, :operations, :pastoral_notes,
     :pay_scales, :pay_scale_grades, :pay_scale_grade_spinal_points,
     :pay_scale_spinal_points, :pay_scale_spinal_point_values,
-    :permanent_exclusions, :people, :person_checks, :person_former_names,
+    :permanent_exclusions, :persons, :person_checks, :person_former_names,
     :person_identification_documents, :person_impairments,
     :person_nationalities, :person_next_of_kins,
     :person_professional_qualifications, :person_training_courses,
