@@ -15,6 +15,7 @@ module Arbor
       subdomain, @username, @password = args
       @host = "https://#{subdomain}.uk.arbor.sc"
       @highest_revision = 0
+      HTTPI.log = settings[:log]
     end
 
     [:get, :post].each do |verb|
