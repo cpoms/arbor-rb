@@ -4,7 +4,7 @@ module Arbor
   class Filter
     include Arbor::Utils
     attr_accessor :attribute, :operator, :value
-    OPERATORS = [:equals, :from, :to, :after, :before, :search, :in]
+    OPERATORS = [:equals, :from, :to, :after, :before, :search, :in, :tagged]
 
     def initialize(attribute, operator, value)
       @attribute = attribute
