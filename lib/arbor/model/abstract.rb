@@ -73,6 +73,11 @@ module Arbor
       def inspect
         "#<#{self.class.name} #{attribute_names.map { |a| "#{a}: #{send(a).inspect}" }.join(', ')}>"
       end
+
+      def to_json
+        Hash[instance_variables.map{ |iv| [iv[1..-1], instance_variable_get(iv)] }]
+          .reject{ |n, _v| n == 'api_client' }.to_json
+      end
     end
   end
 end
