@@ -146,5 +146,5 @@ module Arbor
     :usage_log_entries, :users, :user_defined_fields, :user_defined_records,
     :user_notifications, :user_roles, :user_role_assignments, :vision_tests,
     :widgets, :widget_types, :workitems, :workitem_assignments,
-    :"uk_dfe/upn_assignments", :changes]
+    :"uk_dfe/upn_assignments", :changes, :attendance_registers]
 end
