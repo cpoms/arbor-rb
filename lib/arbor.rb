@@ -109,7 +109,7 @@ module Arbor
     :report_card_batch_template_variables, :report_card_templates,
     :report_card_template_sections, :report_subscriptions, :rooms, :room_assets,
     :room_features, :room_room_assets, :room_room_features, :schools,
-    :school_enrolments, :school_events, :school_event_types, :school_staffs,
+    :school_events, :school_event_types, :school_staffs,
     :school_trips, :schoolworks, :schoolwork_curriculum_goals,
     :schoolwork_types, :sending_profiles, :sen_events, :sen_event_outcomes,
     :sen_event_outcome_types, :sen_event_types, :sen_needs, :sen_need_types,
@@ -146,5 +146,6 @@ module Arbor
     :usage_log_entries, :users, :user_defined_fields, :user_defined_records,
     :user_notifications, :user_roles, :user_role_assignments, :vision_tests,
     :widgets, :widget_types, :workitems, :workitem_assignments,
-    :"uk_dfe/upn_assignments", :changes, :attendance_registers]
+    :"uk_dfe/upn_assignments", :changes, :attendance_registers,
+    :academic_year_enrolments]
 end
