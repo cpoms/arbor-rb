@@ -34,7 +34,7 @@ module Arbor
       enum.each do
         begin
           return yield
-        rescue Exception => e
+        rescue => e
           exception = e
           next
         end
