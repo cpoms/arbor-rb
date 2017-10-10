@@ -54,7 +54,7 @@ module Arbor
         elsif (data[:response] && !data["response"]["success"])
           raise Errors::APIError, "#{data["response"]["code"]} #{data["response"]["reason"]}"
         else
-          raise Errors::SerialisationError, "Unexpected root key in API data. Expected: #{plural_resource} or #{singular_resource}. Actual: #{data.keys}"
+          raise Errors::SerialisationError, "Unexpected root key in API data. Expected: #{plural_resource} or #{singular_resource}. Actual data: #{data}"
         end
       end
   end
