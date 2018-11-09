@@ -3,7 +3,7 @@ require 'arbor/model/serialiser'
 module Arbor
   module Model
     class Abstract
-      attr_accessor :api_client, :entity_type, :attribute_names, :attribute_lock
+      attr_accessor :api_client, :entity_type, :attribute_names, :attribute_lock, :href
 
       def initialize(attributes)
         @attribute_names = []
