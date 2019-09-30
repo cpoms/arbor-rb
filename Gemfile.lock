@@ -4,6 +4,7 @@ PATH
     arbor (1.0.3)
       activesupport (~> 4.1.11)
       httpi (>= 2.0.5)
+      rack (>= 1.6.11)
 
 GEM
   remote: https://rubygems.org/
