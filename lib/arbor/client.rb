@@ -23,7 +23,13 @@ module Arbor
         response = attempt((settings[:retries] || 1).times) do
           HTTPI.request(verb, request, settings[:adapter])
         end
-        JSON.parse(response.body.presence || "{}")
+
+        case response.code
+        when 200
+          JSON.parse(response.body.presence || "{}")
+        else
+          raise RuntimeError, "\nERROR: Server responded with code #{response.code} - #{Rack::Utils::HTTP_STATUS_CODES[response.code]}"
+        end
       end
     end
 
