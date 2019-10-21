@@ -25,7 +25,7 @@ module Arbor
 
       data['changes'].each do |c|
         c['entityType'] = "change"
-        @highest_revision = [highest_revision, BigDecimal.new(c['toRevision'])].max
+        @highest_revision = [highest_revision, BigDecimal(c['toRevision'])].max
       end
 
       unmarshall_data(data, 'changes')
